@@ -1,6 +1,4 @@
 <?php
-ini_set('display_errors', '1');
-error_reporting(E_ALL);
 require_once __DIR__ . '/../../includes/_funcs.php';
 // 受け取る値が配列以外
 $name = htmlSpChar($_POST['name']);
