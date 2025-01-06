@@ -1,5 +1,6 @@
 <?php
-require_once('../includes/_funcs.php');
+
+require_once __DIR__ . '/../../includes/_funcs.php';
 session_start();
 
 // var_dump($_SESSION);
@@ -19,8 +20,8 @@ $subscribeMail = $_SESSION['subscribe_mail'];
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>登録完了</title>
-  <link rel="stylesheet" href="./assets/css/reset.css">
-  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="../../assets/css/reset.css">
+  <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
 
 <body id="complete">
@@ -103,7 +104,7 @@ $subscribeMail = $_SESSION['subscribe_mail'];
         } ?>
       </div>
     </div>
-    <a href="./index.php" class="totop-btn btn">TOPへ戻る</a>
+    <a href="../../index.php" class="totop-btn btn">TOPへ戻る</a>
   </main>
 </body>
 

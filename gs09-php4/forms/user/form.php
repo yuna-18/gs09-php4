@@ -5,14 +5,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ユーザー登録フォーム</title>
-  <link rel="stylesheet" href="./assets/css/reset.css">
-  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="../../assets/css/reset.css">
+  <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
 
 <body id="form">
   <main class="form__wrapper">
     <h1>ユーザー登録フォーム</h1>
-    <form action="./form-confirm.php" method="post" class="form__container">
+    <form action="./confirm.php" method="post" class="form__container">
       <div class="form__contents">
         <div class="form__outer">
           <label for="name">氏名</label>
@@ -54,13 +54,13 @@
         </div>
       </div>
       <div class="btn__container">
-        <a href="./index.php" class="totop-btn btn">TOPへ戻る</a>
+        <a href="../../index.php" class="totop-btn btn">TOPへ戻る</a>
         <input type="submit" class="confirm-btn btn" value="確認する">
       </div>
     </form>
   </main>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-  <script src="../js/index.js"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="../js/index.js"></script> -->
 </body>
 
 </html>

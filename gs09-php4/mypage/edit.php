@@ -1,5 +1,5 @@
 <?php
-require_once('../includes/_funcs.php');
+require_once __DIR__ . '/../includes/_funcs.php';
 
 $id = $_POST['id'];
 $name = htmlSpChar($_POST['name']);
@@ -26,6 +26,6 @@ if ($status === false) {
   $error = $stmt->errorInfo();
   exit('SQLError:' . print_r($error, true));
 } else {
-  header('Location: mypage.php');
+  header('Location: index.php');
   exit();
 }

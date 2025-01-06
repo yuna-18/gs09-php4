@@ -1,7 +1,7 @@
 <?php
 
 $id = $_GET['id'];
-require_once('../includes/_funcs.php');
+require_once __DIR__ . '/../includes/_funcs.php';
 $pdo = connectDb();
 $stmt = $pdo->prepare("SELECT * FROM userdata_table WHERE id = :id");
 $stmt->bindValue(':id', $id, PDO::PARAM_INT);
@@ -24,14 +24,14 @@ if ($status === false) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ユーザー情報変更</title>
-  <link rel="stylesheet" href="./assets/css/reset.css">
-  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 
 <body id="form">
   <main class="form__wrapper">
     <h1>ユーザー情報変更</h1>
-    <form action="./form-update.php" method="post" class="form__container">
+    <form action="./edit.php" method="post" class="form__container">
       <div class="form__contents">
         <div class="form__outer">
           <label for="name">氏名</label>

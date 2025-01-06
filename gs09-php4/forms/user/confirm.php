@@ -1,14 +1,16 @@
 <?php
-require_once('../includes/_funcs.php');
+ini_set('display_errors', '1');
+error_reporting(E_ALL);
+require_once __DIR__ . '/../../includes/_funcs.php';
 // 受け取る値が配列以外
 $name = htmlSpChar($_POST['name']);
 $furigana = htmlSpChar($_POST['furigana']);
 $email = htmlSpChar($_POST['email']);
-$subscribeMail = $_POST['subscribe_mail'] !== NULL ? 1 : 0;
+$subscribeMail = (isset($_POST['subscribe_mail'])) ? 1 : 0;
 
 
 session_start();
-unset($_SESSION['subscribe_mail']); // 新しい変数名もリセット（念のため）
+// unset($_SESSION['subscribe_mail']); // 新しい変数名もリセット（念のため）
 $_SESSION['name'] = $name;
 $_SESSION['furigana'] = $furigana;
 $_SESSION['email'] = $email;
@@ -35,8 +37,8 @@ if (isset($_POST['categories']) && is_array($_POST['categories'])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>登録内容確認</title>
-  <link rel="stylesheet" href="./assets/css/reset.css">
-  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="../../assets/css/reset.css">
+  <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
 
 <body id="confirm">
@@ -86,7 +88,7 @@ if (isset($_POST['categories']) && is_array($_POST['categories'])) {
         </div>
       </div>
     </div>
-    <form action="./form-complete.php" method="post">
+    <form action="./complete.php" method="post">
       <?php
       echo '<input type="hidden" name="name" id="name" value="' . $name . '">';
       echo '<input type="hidden" name="furigana" id="furigana" value="' . $furigana . '">';
@@ -104,8 +106,8 @@ if (isset($_POST['categories']) && is_array($_POST['categories'])) {
       </div>
     </form>
   </main>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-  <script src="../js/index.js"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="../js/index.js"></script> -->
 </body>
 
 </html>
