@@ -7,7 +7,7 @@ function htmlSpChar($stg)
   return htmlspecialchars($stg, ENT_QUOTES);
 }
 
-//1.  DB接続します
+//DB接続
 function connectDb()
 {
   $host = DB_HOST;
@@ -25,4 +25,12 @@ function connectDb()
     echo '</pre>';
     exit('DBConnectError' . $e->getMessage());
   }
+}
+
+//SQLエラー
+function sql_error($stmt)
+{
+    //execute（SQL実行時にエラーがある場合）
+    $error = $stmt->errorInfo();
+    exit('SQLError:' . $error[2]);
 }

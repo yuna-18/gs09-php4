@@ -7,7 +7,7 @@
     bottom: 0;
     width: 32vw;
     height: 32vw;
-    background-color: aquamarine;
+    background-color: lightyellow;
     border-radius: 50%;
   }
   #top .top__wrapper .subscribe-banner__container .subscribe-banner__contents {
@@ -24,6 +24,15 @@
     color: #000;
     font-weight: bold;
   }
+  #top .top__wrapper .mypage {
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    bottom: 0;
+    font-size: 4.2666666667vw;
+    color: #000;
+    font-weight: bold;
+  }
 }
 @media screen and (min-width: 960px) {
   #top .top__wrapper {
@@ -37,6 +46,9 @@
     height: 150px;
   }
   #top .top__wrapper .subscribe-banner__container .subscribe-banner__contents {
+    font-size: 20px;
+  }
+  #top .top__wrapper .mypage {
     font-size: 20px;
   }
 }

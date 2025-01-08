@@ -43,12 +43,11 @@ $subscribeMail = $_SESSION['subscribe_mail'];
 
         $status = $stmt->execute();
         if ($status == false) {
-          $error = $stmt->errorInfo();
           session_destroy();
           echo `<div class="notation">
             <p>登録に失敗しました</p>
           </div>`;
-          exit('sqlError:' . $error[2]);
+          sql_error($stmt);
         } else {
           // データベースに登録した内容を取得
           $lastInsertId = $pdo->lastInsertId();

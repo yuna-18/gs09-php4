@@ -9,7 +9,7 @@
         bottom: 0;
         width: calc(240 / 750 * 100vw);
         height: calc(240 / 750 * 100vw);
-        background-color: aquamarine;
+        background-color: lightyellow;
         border-radius: 50%;
 
         .subscribe-banner__contents {
@@ -27,6 +27,16 @@
             font-weight: bold;
           }
         }
+      }
+
+      .mypage {
+        position: fixed;
+        z-index: 10;
+        left: 0;
+        bottom: 0;
+        font-size: calc(32 / 750 * 100vw);
+        color: #000;
+        font-weight: bold;
       }
     }
   }
@@ -48,6 +58,10 @@
         .subscribe-banner__contents {
           font-size: 20px;
         }
+      }
+
+      .mypage {
+        font-size: 20px;
       }
     }
   }
