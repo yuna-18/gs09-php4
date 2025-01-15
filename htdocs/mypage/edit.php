@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../includes/_funcs.php';
 
-$id = $_POST['id'];
+$hash_id = $_POST['id'];
 $name = htmlSpChar($_POST['name']);
 $furigana = htmlSpChar($_POST['furigana']);
 $email = htmlSpChar($_POST['email']);
@@ -14,7 +14,7 @@ $categories_str = htmlSpChar($categories_str);
 
 $pdo = connectDb();
 $stmt = $pdo->prepare("UPDATE userdata_table SET name=:name, furigana=:furigana, email=:email, music_category=:music_category, subscribe_mail=:subscribe_mail, date=sysdate() WHERE id=:id");
-$stmt->bindValue(':id', $id, PDO::PARAM_INT);
+$stmt->bindValue(':id', $hash_id, PDO::PARAM_INT);
 $stmt->bindValue(':name', $name, PDO::PARAM_STR);
 $stmt->bindValue(':furigana', $furigana, PDO::PARAM_STR);
 $stmt->bindValue(':email', $email, PDO::PARAM_STR);
@@ -26,6 +26,5 @@ if ($status === false) {
   $error = $stmt->errorInfo();
   exit('SQLError:' . print_r($error, true));
 } else {
-  header('Location: index.php');
-  exit();
+  redirect('index.php');
 }

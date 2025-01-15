@@ -30,7 +30,31 @@ function connectDb()
 //SQLエラー
 function sql_error($stmt)
 {
-    //execute（SQL実行時にエラーがある場合）
-    $error = $stmt->errorInfo();
-    exit('SQLError:' . $error[2]);
+  //execute（SQL実行時にエラーがある場合）
+  $error = $stmt->errorInfo();
+  exit('SQLError:' . $error[2]);
+}
+
+// ハッシュ化
+function to_hash($pw)
+{
+  return password_hash($pw, PASSWORD_DEFAULT);
+}
+
+//リダイレクト
+function redirect($file_name)
+{
+  header('Location: ' . $file_name);
+  exit();
+}
+
+// ログインチェック処理
+function loginCheck()
+{
+  if (!isset($_SESSION['chk_ssid']) || $_SESSION['chk_ssid'] != session_id()) {
+    exit('LOGIN ERROR');
+  }
+
+  session_regenerate_id(true);
+  $_SESSION['chk_ssid'] = session_id();
 }

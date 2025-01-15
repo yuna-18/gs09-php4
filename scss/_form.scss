@@ -16,7 +16,7 @@
       margin: calc(60 / 750 * 100vw) auto 0;
       width: 90%;
 
-      .form__contents {
+      .form__content {
         border: 1px solid #000;
         padding: calc(30 / 750 * 100vw) 0;
 
@@ -35,11 +35,11 @@
             }
           }
         }
-        
+
         .notation {
           margin-bottom: calc(60 / 750 * 100vw);
           text-align: center;
-          
+
           p {
             font-weight: bold;
           }
@@ -71,7 +71,7 @@
   .form__wrapper {
 
     .form__container {
-      .form__contents {
+      .form__content {
         padding: 15px 0;
 
         .form__outer {
@@ -89,9 +89,10 @@
             }
           }
         }
+
         .notation {
           margin-bottom: 40px;
-          
+
           p {
             font-weight: bold;
           }
@@ -126,7 +127,7 @@
 
       .form__container {
 
-        .form__contents {
+        .form__content {
 
           .form__outer {
             .input-check__list {
@@ -177,7 +178,7 @@
         width: 90%;
         margin: 40px auto 0;
 
-        .form__contents {
+        .form__content {
 
           .form__outer {
 
@@ -205,7 +206,7 @@
       .form__container {
         padding: calc(60 / 750 * 100vw) calc(30 / 750 * 100vw);
 
-        .form__contents {
+        .form__content {
           padding: calc(30 / 750 * 100vw) 0;
         }
       }
@@ -222,7 +223,7 @@
       .form__container {
         padding: 60px 30px;
 
-        .form__contents {
+        .form__content {
           padding: 30px 0;
         }
       }

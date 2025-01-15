@@ -7,6 +7,7 @@ session_start();
 $name = $_SESSION['name'];
 $furigana = $_SESSION['furigana'];
 $email = $_SESSION['email'];
+$pw = $_SESSION['pw'];
 $categories_str = isset($_SESSION['categories']) && is_array($_SESSION['categories'])
   ? implode(', ', $_SESSION['categories'])
   : '';
@@ -27,10 +28,10 @@ $subscribeMail = $_SESSION['subscribe_mail'];
 <body id="complete">
   <main class="form__wrapper">
     <div class="form__container">
-      <div class="form__contents">
+      <div class="form__content">
         <?php
         $pdo = connectDb();
-        $stmt = $pdo->prepare("INSERT INTO userdata_table(name, furigana, email, music_category, subscribe_mail, date) VALUES(:name, :furigana, :email, :music_category, :subscribe_mail, now())");
+        $stmt = $pdo->prepare("INSERT INTO userdata_table(name, furigana, email, pw, music_category, subscribe_mail, date) VALUES(:name, :furigana, :email, :pw, :music_category, :subscribe_mail, now())");
         if (!$stmt) {
           exit('Database connection failed');
         }
@@ -38,6 +39,7 @@ $subscribeMail = $_SESSION['subscribe_mail'];
         $stmt->bindValue(':name', $name, PDO::PARAM_STR);
         $stmt->bindValue(':furigana', $furigana, PDO::PARAM_STR);
         $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+        $stmt->bindValue(':pw', $pw, PDO::PARAM_STR);
         $stmt->bindValue(':music_category', $categories_str, PDO::PARAM_STR);
         $stmt->bindValue(':subscribe_mail', $subscribeMail, PDO::PARAM_INT);
 
@@ -81,6 +83,10 @@ $subscribeMail = $_SESSION['subscribe_mail'];
                 <p class="register__content"><?= $userData['email'] ?></p>
               </div>
               <div class="form__outer">
+                <p class="register__label">パスワード<span style="font-size: 10px;">※セキュリティ保護のため伏字にしています</span></p>
+                <p class="register__content">********</p>
+              </div>
+              <div class="form__outer">
                 <p class="register__label">好きな音楽のカテゴリ</p>
                 <p class="register__content"><?= $userData['music_category'] ?></p>
               </div>
@@ -100,10 +106,11 @@ $subscribeMail = $_SESSION['subscribe_mail'];
           <?php } ?>
         <?php
           session_destroy();
+          $hash_id = to_hash($userData['id']);
         } ?>
       </div>
     </div>
-    <a href="../../index.php" class="totop-btn btn">TOPへ戻る</a>
+    <?= '<a href="../../home.php?id=' . $hash_id . '" class="totop-btn btn">ホームへ</a>' ?>
   </main>
 </body>
 

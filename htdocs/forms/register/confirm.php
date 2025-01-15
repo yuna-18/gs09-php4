@@ -4,6 +4,7 @@ require_once __DIR__ . '/../../includes/_funcs.php';
 $name = htmlSpChar($_POST['name']);
 $furigana = htmlSpChar($_POST['furigana']);
 $email = htmlSpChar($_POST['email']);
+$pw = to_hash($_POST['pw']);
 $subscribeMail = (isset($_POST['subscribe_mail'])) ? 1 : 0;
 
 
@@ -12,6 +13,7 @@ session_start();
 $_SESSION['name'] = $name;
 $_SESSION['furigana'] = $furigana;
 $_SESSION['email'] = $email;
+$_SESSION['pw'] = $pw;
 $_SESSION['subscribe_mail'] = $subscribeMail;
 
 // 複数選択　音楽カテゴリ処理
@@ -42,7 +44,7 @@ if (isset($_POST['categories']) && is_array($_POST['categories'])) {
 <body id="confirm">
   <main class="form__wrapper">
     <div class="form__container">
-      <div class="form__contents">
+      <div class="form__content">
         <div class="notation">
           <p>以下の内容で登録します。</p>
         </div>
@@ -57,6 +59,10 @@ if (isset($_POST['categories']) && is_array($_POST['categories'])) {
         <div class="form__outer">
           <p class="register__label">メール</p>
           <p class="register__content"><?= $email; ?></p>
+        </div>
+        <div class="form__outer">
+          <p class="register__label">パスワード<span style="font-size: 10px;">※セキュリティ保護のため伏字にしています</span></p>
+          <p class="register__content">********</p>
         </div>
         <div class="form__outer">
           <p class="register__label">好きな音楽のカテゴリ</p>
@@ -91,6 +97,7 @@ if (isset($_POST['categories']) && is_array($_POST['categories'])) {
       echo '<input type="hidden" name="name" id="name" value="' . $name . '">';
       echo '<input type="hidden" name="furigana" id="furigana" value="' . $furigana . '">';
       echo '<input type="hidden" name="email" id="email" value="' . $email . '">';
+      echo '<input type="hidden" name="pw" id="pw" value="' . $pw . '">';
       if (!empty($_SESSION['categories'])) {
         foreach ($_SESSION['categories'] as $category) {
           echo '<input type="hidden" name="categories[]" value="' . $category . '">';

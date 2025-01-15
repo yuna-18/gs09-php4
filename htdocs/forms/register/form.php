@@ -13,7 +13,7 @@
   <main class="form__wrapper">
     <h1>ユーザー登録フォーム</h1>
     <form action="./confirm.php" method="post" class="form__container">
-      <div class="form__contents">
+      <div class="form__content">
         <div class="form__outer">
           <label for="name">氏名</label>
           <input type="text" name="name" id="name">
@@ -25,6 +25,10 @@
         <div class="form__outer">
           <label for="email">メール</label>
           <input type="text" name="email" id="email">
+        </div>
+        <div class="form__outer">
+          <label for="pw">パスワード</label>
+          <input type="text" name="pw" id="pw">
         </div>
         <div class="form__outer">
           <p class="question">好きな音楽のカテゴリ</p>

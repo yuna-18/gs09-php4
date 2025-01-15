@@ -17,11 +17,10 @@ $val = $stmt->fetch();
 if( $val['id'] != '' && password_verify($pw, $val['pw'])){
   //Login成功時 該当レコードがあればSESSIONに値を代入
   $_SESSION['chk_ssid'] = session_id();
-  header('Location: ../home.php');
+  redirect('../home.php');
 }else{
   //Login失敗時(Logout経由)
-  header('Location: login.php');
+  redirect('login.php');
 }
-
-exit();
+// exit();
 ?>

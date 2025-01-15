@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../includes/_funcs.php';
 //必ずsession_startは最初に記述
 session_start();
 
@@ -14,5 +15,4 @@ if (isset($_COOKIE[session_name()])) { //session_name()は、セッションID�
 session_destroy();
 
 //処理後、index.phpへリダイレクト
-header("Location: login.php");
-exit();
+redirect('../index.php');

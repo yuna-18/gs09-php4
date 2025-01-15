@@ -1,10 +1,10 @@
 <?php
 
-$id = $_GET['id'];
+$hash_id = $_GET['id'];
 require_once __DIR__ . '/../includes/_funcs.php';
 $pdo = connectDb();
 $stmt = $pdo->prepare("SELECT * FROM userdata_table WHERE id = :id");
-$stmt->bindValue(':id', $id, PDO::PARAM_INT);
+$stmt->bindValue(':id', $hash_id, PDO::PARAM_INT);
 $status = $stmt->execute();
 $result = '';
 
@@ -32,7 +32,7 @@ if ($status === false) {
   <main class="form__wrapper">
     <h1>ユーザー情報変更</h1>
     <form action="./edit.php" method="post" class="form__container">
-      <div class="form__contents">
+      <div class="form__content">
         <div class="form__outer">
           <label for="name">氏名</label>
           <input type="text" name="name" id="name" value="<?= $result['name'] ?>">

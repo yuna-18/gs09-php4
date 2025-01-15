@@ -29,6 +29,19 @@
     height: calc(60 / 750 * 100vw);
     line-height: calc(60 / 750 * 100vw);
   }
+  
+  .menu__content {
+    position: fixed;
+    top: 0;
+    padding: 15px 0;
+    .menu__list {
+      display: flex;
+      gap: 30px;
+      .menu__item {
+        margin-top: calc(15 / 750 * 100vw);
+      }
+    }
+  }
 }
 
 
