@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../config/config.prod.php';
 require_once __DIR__ . '/../config/db.php';
 //共通に使う関数を記述
 //XSS対応（ echoする場所で使用！それ以外はNG ）
@@ -36,9 +37,39 @@ function sql_error($stmt)
 }
 
 // ハッシュ化
-function to_hash($pw)
+function pw_hash($pw)
 {
   return password_hash($pw, PASSWORD_DEFAULT);
+}
+
+// トークン生成
+function gen_token($id)
+{
+  $timestamp = time(); // 現在のタイムスタンプを取得
+  $data = $id . "|" . $timestamp; // ユーザーIDとタイムスタンプを結合
+  $hash = hash_hmac('sha256', $data, 'LOGIN_SEC_KEY'); // HMACを生成
+  // トークンはハッシュとタイムスタンプを結合してエンコード
+  $token = base64_encode($hash . "|" . $timestamp);
+  return $token;
+}
+
+function ck_token($id)
+{
+  if (!isset($_GET['token'])) {
+    return false;
+  }
+  $received_token = base64_decode($_GET['token']);
+  list($old_token, $timestamp) = explode("|", $received_token);
+
+  // タイムスタンプが有効期限内か確認
+  if (time() - $timestamp > 3600) { // 1時間を超えている場合
+    return false; // トークン無効
+  }
+  $data = $id . "|" . $timestamp; // ユーザーIDとタイムスタンプを結合
+  $new_token = hash_hmac('sha256', $data, 'LOGIN_SEC_KEY'); // 同じロジックでハッシュを生成
+  
+  // ハッシュが一致するか確認
+  return hash_equals($old_token, $new_token); // 安全な比較関数を使用
 }
 
 //リダイレクト

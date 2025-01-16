@@ -106,11 +106,13 @@ $subscribeMail = $_SESSION['subscribe_mail'];
           <?php } ?>
         <?php
           session_destroy();
-          $hash_id = to_hash($userData['id']);
+          session_start();
+          $token = gen_token($userData['id']);
+          $_SESSION['id'] = $userData['id'];
         } ?>
       </div>
     </div>
-    <?= '<a href="../../home.php?id=' . $hash_id . '" class="totop-btn btn">ホームへ</a>' ?>
+    <?= '<a href="../../home.php?token=' . $token . '" class="totop-btn btn">ホームへ</a>' ?>
   </main>
 </body>
 

@@ -1,5 +1,37 @@
 <?php
-$hash_id = $_GET['id'];
+require_once __DIR__ . '/includes/_funcs.php';
+
+session_start();
+$id = $_SESSION['id'];
+$tk_flg = ck_token($id);
+if($tk_flg) {
+  $token = "?token=" . $_GET['token'];
+} else {
+  // 有効期限切れならログアウト
+  redirect('./auth/logout.php');
+}
+if (isset($_GET['token'])) {
+  if ($tk_flg) {
+    $pdo = connectDb();
+    $stmt = $pdo->prepare("SELECT * FROM userdata_table WHERE id = :id");
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+    $status = $stmt->execute();
+
+    if ($status === false) {
+      $error = $stmt->errorInfo();
+      exit('SQLError:' . print_r($error, true));
+    } else {
+      $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+      $selectedMusicCategories = explode(', ', $userData['music_category']);
+    }
+  } else {
+    // 有効期限切れならログアウト
+    redirect('../auth/logout.php');
+  }
+} else {
+  // 有効期限切れならログアウト
+  redirect('../auth/logout.php');
+}
 ?>
 
 <!DOCTYPE html>
@@ -18,10 +50,10 @@ $hash_id = $_GET['id'];
     <nav class="menu__content">
       <ul class="menu__list">
         <li class="menu__item">
-          Welcome
+          <?= "ようこそ " . $userData['name'] . " さん" ;?>
         </li>
         <li class="menu__item">
-          <?= '<a href="./mypage/index.php?id=' . $hash_id . '" class="mypage">マイページ</a>' ?>
+          <?= '<a href="./mypage/index.php' . $token . '" class="mypage">マイページ</a>' ?>
         </li>
         <li class="menu__item">
           <a href="./auth/logout.php">ログアウト</a>

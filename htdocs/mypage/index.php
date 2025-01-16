@@ -1,9 +1,14 @@
 <?php
 require_once __DIR__ . '/../includes/_funcs.php';
-$hash_id = $_GET['id'];
-// $pdo = connectDb();
-// $stmt = $pdo->prepare("SELECT * FROM userdata_table");
-// $stmt->execute();
+session_start();
+$id = $_SESSION['id'];
+$tk_flg = ck_token($id);
+if($tk_flg) {
+  $token = "?token=" . $_GET['token'];
+} else {
+  // 有効期限切れならログアウト
+  redirect('../auth/logout.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -22,11 +27,14 @@ $hash_id = $_GET['id'];
       <div class="menu__content">
         <ul class="menu__list">
           <li class="menu__item">
-            <?= '<a href="../../home.php?id=' . $hash_id . '" class="">ホーム</a>' ?>
+            <?= '<a href="../home.php' . $token . '" class="">ホーム</a>' ?>
           </li>
           <li class="menu__item">
-            <?= '<a href="./userdata.php?id=' . $hash_id . '" class="">登録情報</a>' ?>
+            <?= '<a href="./userdata.php' . $token . '" class="">登録情報</a>' ?>
           </li>
+          <li class="menu__item">
+          <a href="../auth/logout.php">ログアウト</a>
+        </li>
         </ul>
       </div>
       <div class="mypage__content">

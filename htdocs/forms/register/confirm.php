@@ -4,7 +4,7 @@ require_once __DIR__ . '/../../includes/_funcs.php';
 $name = htmlSpChar($_POST['name']);
 $furigana = htmlSpChar($_POST['furigana']);
 $email = htmlSpChar($_POST['email']);
-$pw = to_hash($_POST['pw']);
+$pw = pw_hash($_POST['pw']);
 $subscribeMail = (isset($_POST['subscribe_mail'])) ? 1 : 0;
 
 

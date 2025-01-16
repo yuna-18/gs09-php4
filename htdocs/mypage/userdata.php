@@ -1,10 +1,35 @@
 <?php
-$hash_id = $_GET['id'];
 require_once __DIR__ . '/../includes/_funcs.php';
-$pdo = connectDb();
-$stmt = $pdo->prepare("SELECT * FROM userdata_table WHERE id = :id");
-$stmt->bindValue(':id', $hash_id, PDO::PARAM_STR);
-$stmt->execute();
+session_start();
+$id = $_SESSION['id'];
+$tk_flg = ck_token($id);
+if ($tk_flg) {
+  $token = "?token=" . $_GET['token'];
+} else {
+  // 有効期限切れならログアウト
+  redirect('../auth/logout.php');
+}
+if (isset($_GET['token'])) {
+  if ($tk_flg) {
+    $pdo = connectDb();
+    $stmt = $pdo->prepare("SELECT * FROM userdata_table WHERE id = :id");
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+    $status = $stmt->execute();
+    if ($status === false) {
+      $error = $stmt->errorInfo();
+      exit('SQLError:' . print_r($error, true));
+    } else {
+      $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+  } else {
+    // 有効期限切れならログアウト
+    redirect('../auth/logout.php');
+  }
+} else {
+  // 有効期限切れならログアウト
+  redirect('../auth/logout.php');
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -23,20 +48,13 @@ $stmt->execute();
       <div class="menu__content">
         <ul class="menu__list">
           <li class="menu__item">
-            <?= '<a href="./index.php?id=' . $hash_id . '" class="">マイページ</a>' ?>
+            <?= '<a href="./index.php' . $token . '" class="">マイページ</a>' ?>
           </li>
           <li class="menu__item">
-            <?= '<a href="../home.php?id=' . $hash_id . '" class="">ホーム</a>' ?>
+            <?= '<a href="../home.php' . $token . '" class="">ホーム</a>' ?>
           </li>
         </ul>
       </div>
-      <?php
-      if (!$stmt) {
-        exit('Database connection failed');
-      } else {
-        $userData = $stmt->fetch(PDO::FETCH_ASSOC);
-      }
-      ?>
       <div class="mypage__content form__content">
         <div class="notation">
           <p>登録情報</p>
@@ -59,17 +77,7 @@ $stmt->execute();
         </div>
         <div class="form__outer">
           <p class="register__label">好きな音楽のカテゴリ</p>
-          <?php
-          if (!empty($userData['categories'])) {
-            echo '<ul class="register__content--list">';
-            foreach ($userData['categories'] as $category) {
-              echo '<li class="register__content">' . $category . '</li>';
-            }
-            echo '</ul>';
-          } else {
-            echo '<p class="register__content">選択されたカテゴリはありません。</p>';
-          }
-          ?>
+          <p class="register__content"><?= $userData['music_category']; ?></p>
         </div>
         <div class="form__outer">
           <p class="register__label">メールで演奏会の通知を受け取る</p>
@@ -85,7 +93,7 @@ $stmt->execute();
         </div>
       </div>
     </div>
-    <?= '<a href="./user.php?id=' . $hash_id . '" class="btn">編集する</a>' ?>
+    <?= '<a href="./user.php' . $token . '" class="btn">編集する</a>' ?>
   </main>
 </body>
 

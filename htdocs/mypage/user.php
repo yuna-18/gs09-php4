@@ -1,19 +1,35 @@
 <?php
-
-$hash_id = $_GET['id'];
 require_once __DIR__ . '/../includes/_funcs.php';
-$pdo = connectDb();
-$stmt = $pdo->prepare("SELECT * FROM userdata_table WHERE id = :id");
-$stmt->bindValue(':id', $hash_id, PDO::PARAM_INT);
-$status = $stmt->execute();
-$result = '';
-
-if ($status === false) {
-  $error = $stmt->errorInfo();
-  exit('SQLError:' . print_r($error, true));
+session_start();
+$id = $_SESSION['id'];
+$tk_flg = ck_token($id);
+if ($tk_flg) {
+  $token = "?token=" . $_GET['token'];
 } else {
-  $result = $stmt->fetch();
-  $selectedMusicCategories = explode(', ', $result['music_category']);
+  // 有効期限切れならログアウト
+  redirect('../auth/logout.php');
+}
+if (isset($_GET['token'])) {
+  if ($tk_flg) {
+    $pdo = connectDb();
+    $stmt = $pdo->prepare("SELECT * FROM userdata_table WHERE id = :id");
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+    $status = $stmt->execute();
+
+    if ($status === false) {
+      $error = $stmt->errorInfo();
+      exit('SQLError:' . print_r($error, true));
+    } else {
+      $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+      $selectedMusicCategories = explode(', ', $userData['music_category']);
+    }
+  } else {
+    // 有効期限切れならログアウト
+    redirect('../auth/logout.php');
+  }
+} else {
+  // 有効期限切れならログアウト
+  redirect('../auth/logout.php');
 }
 ?>
 
@@ -31,19 +47,20 @@ if ($status === false) {
 <body id="form">
   <main class="form__wrapper">
     <h1>ユーザー情報変更</h1>
-    <form action="./edit.php" method="post" class="form__container">
+    <?= '<form action="./edit.php' . $token .'" method="post" class="form__container">' ?>
+    <!-- <form action="./edit.php" method="post" class="form__container"> -->
       <div class="form__content">
         <div class="form__outer">
           <label for="name">氏名</label>
-          <input type="text" name="name" id="name" value="<?= $result['name'] ?>">
+          <input type="text" name="name" id="name" value="<?= $userData['name'] ?>">
         </div>
         <div class="form__outer">
           <label for="furigana">フリガナ</label>
-          <input type="text" name="furigana" id="furigana" value="<?= $result['furigana'] ?>">
+          <input type="text" name="furigana" id="furigana" value="<?= $userData['furigana'] ?>">
         </div>
         <div class="form__outer">
           <label for="email">メール</label>
-          <input type="text" name="email" id="email" value="<?= $result['email'] ?>">
+          <input type="text" name="email" id="email" value="<?= $userData['email'] ?>">
         </div>
         <div class="form__outer">
           <p class="question">好きな音楽のカテゴリ</p>
@@ -68,19 +85,19 @@ if ($status === false) {
         <div class="form__outer">
           <p class="question">メールで演奏会の通知を受け取れます。</p>
           <div class="input-check__item">
-            <label for="subscribe_mail"><input type="checkbox" name="subscribe_mail" id="subscribe_mail" value="1" <?= $result['subscribe_mail'] === 1 ? 'checked' : '' ?>>受け取る</label>
+            <label for="subscribe_mail"><input type="checkbox" name="subscribe_mail" id="subscribe_mail" value="1" <?= $userData['subscribe_mail'] === 1 ? 'checked' : '' ?>>受け取る</label>
           </div>
         </div>
       </div>
       <div class="btn__container">
         <button type="button" onclick="history.back()" class="back-btn btn">戻る</button>
-        <input type="hidden" name="id" value="<?= $result['id'] ?>">
+        <input type="hidden" name="id" value="<?= $userData['id'] ?>">
         <input type="submit" class="btn" value="更新">
       </div>
     </form>
   </main>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-  <script src="../js/index.js"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="../js/index.js"></script> -->
 </body>
 
 </html>
